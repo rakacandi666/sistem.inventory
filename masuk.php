@@ -2,6 +2,7 @@
 require 'cek_login.php';
 ?>
 
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -58,17 +59,17 @@ require 'cek_login.php';
         <div id="layoutSidenav_content">
             <main>
                 <div class="container-fluid px-4">
-                    <h1 class="mt-4">Data Order</h1>
+                    <h1 class="mt-4">Data Barang Masuk</h1>
                     <ol class="breadcrumb mb-4">
                         <li class="breadcrumb-item active">Selamat Datang</li>
                     </ol>
                     <div class="col-xl-3 col-md-6">
                         <div class="card bg-primary text-white mb-4">
-                            <div class="card-body">Jumlah Pesanan :</div>
+                            <div class="card-body">Jumlah Barang Masuk :</div>
                         </div>
                         <button type="button" class="btn btn-primary mb-3" data-bs-toggle="modal"
                             data-bs-target="#myModal">
-                            Tambah Pesanan
+                            Tambah Barang Masuk
                         </button>
                     </div>
                     <div class="card mb-4">
