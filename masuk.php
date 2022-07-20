@@ -1,8 +1,6 @@
 <?php
 require 'cek_login.php';
 ?>
-
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -25,6 +23,7 @@ require 'cek_login.php';
         <!-- Sidebar Toggle-->
         <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i
                 class="fas fa-bars"></i></button>
+
     </nav>
     <div id="layoutSidenav">
         <div id="layoutSidenav_nav">
@@ -52,6 +51,7 @@ require 'cek_login.php';
                             <div class="sb-nav-link-icon"><i class="fa fa-sign-out"></i></div>
                             Logout
                         </a>
+
                     </div>
                 </div>
             </nav>
@@ -60,13 +60,7 @@ require 'cek_login.php';
             <main>
                 <div class="container-fluid px-4">
                     <h1 class="mt-4">Data Barang Masuk</h1>
-                    <ol class="breadcrumb mb-4">
-                        <li class="breadcrumb-item active">Selamat Datang</li>
-                    </ol>
                     <div class="col-xl-3 col-md-6">
-                        <div class="card bg-primary text-white mb-4">
-                            <div class="card-body">Jumlah Barang Masuk :</div>
-                        </div>
                         <button type="button" class="btn btn-primary mb-3" data-bs-toggle="modal"
                             data-bs-target="#myModal">
                             Tambah Barang Masuk
@@ -75,36 +69,40 @@ require 'cek_login.php';
                     <div class="card mb-4">
                         <div class="card-header">
                             <i class="fas fa-table me-1"></i>
-                            Data Order
+                            Data Barang Masuk
                         </div>
                         <div class="card-body">
                             <table id="datatablesSimple">
                                 <thead>
                                     <tr>
-                                        <th>ID Pesanan</th>
-                                        <th>Tanggal Pesan</th>
-                                        <th>Nama Pelanggan</th>
+                                        <th>No</th>
+                                        <th>Nama produk</th>
+                                        <th>Deskripsi</th>
                                         <th>Jumlah</th>
+                                        <th>Tanggal</th>
                                         <th>Aksi</th>
                                     </tr>
                                 </thead>
                                 <tfoot>
                                     <tr>
-                                        <th>ID Pesanan</th>
-                                        <th>Tanggal Pesan</th>
-                                        <th>Nama Pelanggan</th>
+                                        <th>No</th>
+                                        <th>Nama produk</th>
+                                        <th>Deskripsi</th>
                                         <th>Jumlah</th>
+                                        <th>Tanggal</th>
                                         <th>Aksi</th>
                                     </tr>
                                 </tfoot>
                                 <tbody>
                                     <tr>
-                                        <td>Tiger Nixon</td>
-                                        <td>System Architect</td>
-                                        <td>Edinburgh</td>
-                                        <td>61</td>
+                                        <td>1</td>
+                                        <td>pensil</td>
+                                        <td>pensil 2B</td>
+                                        <td>2000</td>
+                                        <td>10</td>
                                         <td>Edit | Delete</td>
                                     </tr>
+
                                 </tbody>
                             </table>
                         </div>
@@ -137,6 +135,7 @@ require 'cek_login.php';
 <div class="modal" id="myModal">
     <div class="modal-dialog">
         <div class="modal-content">
+
             <!-- Modal Header -->
             <div class="modal-header">
                 <h4 class="modal-title">Data Pesanan</h4>
@@ -145,8 +144,27 @@ require 'cek_login.php';
             <form method="POST">
                 <!-- Modal body -->
                 <div class="modal-body">
-                    Pilih Pelanggan
+                    Pilih Barang
+                    <select name="id_produk" class="form-control">
+                        <?php
+                        $getproduk = mysqli_query($koneksi, "SELECT * FROM product");
+
+                        while ($pr = mysqli_fetch_array($getproduk)) {
+                            $id_produk = $pr['id_produk'];
+                            $nama_produk = $pr['nama_produk'];
+                            $deskripsi = $pr['deskripsi'];
+                            $stock = $pr['stock'];
+                        ?>
+                        <option value="<?= $id_produk; ?>">
+                            <?= $nama_produk;  ?> - <?= $deskripsi;  ?> (Stock : <?= $stock;  ?>)
+                        </option>
+                        <?php
+                        };
+                        ?>
+
+                    </select>
                 </div>
+
                 <!-- Modal footer -->
                 <div class="modal-footer">
                     <button type="submit" class="btn btn-success" name="tambahpesanan">Simpan</button>
