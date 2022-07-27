@@ -83,7 +83,7 @@ require 'cek_login.php';
                                         <th>ID Pesanan</th>
                                         <th>Tanggal Pesan</th>
                                         <th>Nama Pelanggan</th>
-                                        <th>Jumlah</th>
+                                        <th>Alamat</th>
                                         <th>Aksi</th>
                                     </tr>
                                 </thead>
@@ -92,18 +92,35 @@ require 'cek_login.php';
                                         <th>ID Pesanan</th>
                                         <th>Tanggal Pesan</th>
                                         <th>Nama Pelanggan</th>
-                                        <th>Jumlah</th>
+                                        <th>Alamat</th>
                                         <th>Aksi</th>
                                     </tr>
                                 </tfoot>
                                 <tbody>
+                                    <?php
+                                    $getpesanan = mysqli_query($koneksi, "SELECT * FROM pesanan ps, pelanggan pl WHERE ps.id_pelanggan=pl.id_pelanggan");
+
+                                    while ($ps = mysqli_fetch_array($getpesanan)) {
+                                        $id_pesanan = $ps['id_pesanan'];
+                                        $nama_pelanggan = $ps['nama_pelanggan'];
+                                        $alamat = $ps['alamat'];
+                                        $tgl_pesan = $ps['tgl_pesan'];
+                                    ?>
                                     <tr>
-                                        <td>Tiger Nixon</td>
-                                        <td>System Architect</td>
-                                        <td>Edinburgh</td>
-                                        <td>61</td>
-                                        <td>Edit | Delete</td>
+                                        <td><?= $id_pesanan; ?></td>
+                                        <td><?= $tgl_pesan; ?></td>
+                                        <td><?= $nama_pelanggan; ?></td>
+                                        <td><?= $alamat; ?></td>
+                                        <td> 
+                                       <a href="view.php?idp=<?= $id_pesanan; ?>" class="btn btn-primary" target="blank">
+                                       Tampilkan | 
+                                        <button type="button" class="btn btn-danger" data-bs-toggle="modal"
+                                            data-bs-target="#edit<?= $id_pelanggan?>">
+                                            Delete
+                                        </button></td>
                                     </tr>
+                                    <?php
+                                    } ?>
                                 </tbody>
                             </table>
                         </div>
@@ -145,6 +162,20 @@ require 'cek_login.php';
                 <!-- Modal body -->
                 <div class="modal-body">
                     Pilih Pelanggan
+<select name="id_pelanggan" class="form-control">
+    <?php
+    $getpelanggan=mysqli_query($koneksi, "SELECT * FROM pelanggan");
+    while($pl=mysqli_fetch_array($getpelanggan)){
+        $id_pelanggan = $pl['id_pelanggan'];
+        $nama_pelanggan = $pl['nama_pelanggan'];
+        $alamat = $pl['alamat'];
+        ?>
+        <option value="<?= $id_pelanggan; ?>">
+        <?= $nama_pelanggan; ?>
+        - <?= $alamat; ?>
+            <?php 
+            } ?>
+            </select>
                 </div>
                 <!-- Modal footer -->
                 <div class="modal-footer">
