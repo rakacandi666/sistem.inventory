@@ -113,12 +113,43 @@ require 'cek_login.php';
                                         <td><?= $alamat; ?></td>
                                         <td> 
                                        <a href="view.php?idp=<?= $id_pesanan; ?>" class="btn btn-primary" target="blank">
-                                       Tampilkan | 
+                                       Tampilkan</a> | 
                                         <button type="button" class="btn btn-danger" data-bs-toggle="modal"
                                             data-bs-target="#edit<?= $id_pelanggan?>">
                                             Delete
                                         </button></td>
                                     </tr>
+                                    <div class="modal" id="edit<?= $id_pesanan; ?>">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                     <!-- Modal Header -->
+                                     <div class="modal-header">
+                                                    <h4 class="modal-title">Delete Barang <?= $id_pesanan;  ?></h4>
+                                                    <button type="button" class="btn-close"
+                                                        data-bs-dismiss="modal"></button>
+                                                </div>
+                                                <form method="POST">
+                                                    <!-- Modal body -->
+                                                    <div class="modal-body">
+                                                        Apakah Anda Yakin akan menghapus pesanan <? $nama_pelanggan ?> ini? 
+                                                        <input type="hidden" name="id_pesanan" class="form-control mt-3"
+                                                            value="<?= $id_pesanan;  ?>">
+                                                            <input type="hidden" name="id_pelanggan" class="form-control mt-3"
+                                                            value="<?= $id_pelanggan;  ?>">
+                                                       
+                                                    </div>
+
+                                                    <!-- Modal footer -->
+                                                    <div class="modal-footer">
+                                                        <button type="submit" class="btn btn-success"
+                                                            name="hapuspesanank">Hapus</button>
+                                                        <button type="button" class="btn btn-danger"
+                                                            data-bs-dismiss="modal">Tutup</button>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
                                     <?php
                                     } ?>
                                 </tbody>

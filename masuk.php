@@ -165,6 +165,8 @@ require 'cek_login.php';
                                                         Apakah Anda Yakin akan menghapus barang ini?
                                                         <input type="hidden" name="id_masuk" class="form-control mt-3"
                                                             value="<?= $id_masuk;  ?>">
+                                                            <input type="hidden" name="id_produk" class="form-control mt-3"
+                                                            value="<?= $id_produk;  ?>">
                                                        
                                                     </div>
 

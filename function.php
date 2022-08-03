@@ -169,7 +169,10 @@ if (isset($_POST['barangmasuk'])) {
         "INSERT INTO masuk (id_produk, qty) VALUES ('$id_produk','$qty')"
     );
 
-    if ($barangmasuk) {
+    $updateStock = mysqli_query($koneksi, "UPDATE produk SET stock = stock + $qty
+    WHERE id_produk='$id_produk'");
+
+    if ($barangmasuk && $updateStock) {
         // kalau sukses
         header('location:masuk.php');
     } else {
@@ -309,41 +312,111 @@ if(isset($_POST['editbarangmasuk'])) {
     $qty = $_POST['qty'];
     $id_masuk = $_POST['id_masuk'];
     $id_produk = $_POST['id_produk'];
-    $stock = $_POST['stock'];
 
     //cek
-//    $cekstock1 = mysqli_query($koneksi, "SELECT * FROM produk WHERE id_produk='$id_produk'");
-//    $cekstock2 = mysqli_fetch_array($cekstock1);
-//    $newstock = $cekstock2['stock'];
+    $getHistorys = mysqli_query($koneksi, "SELECT * FROM masuk WHERE id_masuk='$id_masuk'");
+    $getStok = mysqli_query($koneksi, "SELECT stock from produk where id_produk = '$id_produk'");
+    $getStok2 = mysqli_fetch_array($getStok);
 
-    $query1 = mysqli_query($koneksi, "UPDATE masuk SET qty='$qty' WHERE id_masuk='$id_masuk'");
-//    $query2 = mysqli_query($koneksi, "UPDATE produk SET stock='$stock' WHERE id_produk='$id_produk'");
+    $getHistory = mysqli_fetch_array($getHistorys);
+    $historyLama = $getHistory['qty'];
+    $stokSekarang = $getStok2['stock'];
 
-    if($query1){
-        //update stock
+    if ($qty >= $historyLama) {
+        $selisih = $qty - $historyLama;
+        $update = mysqli_query($koneksi, "update produk set stock = stock+ $selisih where id_produk='$id_produk'");
+    } else {
+        $selisih = $historyLama - $qty;
+        $update = mysqli_query($koneksi, "update produk set stock = stock-$selisih where id_produk='$id_produk'");
+    }
+
+    $query2 = mysqli_query($koneksi, "UPDATE masuk SET qty='$qty' WHERE id_masuk='$id_masuk'");
+
+    if ($query2) {
+        //jika sukses
         header('location:masuk.php');
     } else {
         echo '
-        <script>
-        alert("Edit Barang Masuk Gagal)
-        window.location.href="masuk.php"
-        </script>';
+        <script>alert("Gagal");
+         window.location.href="masuk.php"
+        </script>
+        ';
     }
 }
 
 if(isset($_POST['hapusbarangmasuk'])){
     $id_masuk = $_POST['id_masuk'];
+    $id_produk = $_POST['id_produk'];
 
-    $query = mysqli_query($koneksi, "DELETE FROM masuk WHERE id_masuk='$id_masuk'");
+    $getHistorys = mysqli_query($koneksi, "SELECT * FROM masuk WHERE id_masuk='$id_masuk'");
+    $getHistory = mysqli_fetch_array($getHistorys);
+    $historyLama = $getHistory['qty'];
 
-    if($query){
+    $update = mysqli_query($koneksi,"UPDATE produk SET stock = stock - $historyLama WHERE id_produk='$id_produk'");
+     $query = mysqli_query($koneksi, "DELETE FROM masuk WHERE id_masuk='$id_masuk'");
+
+    if($query && $update){
         //update stock
         header('location:masuk.php');
     } else {
         echo '
         <script>
-        alert("Edit Barang Masuk Gagal)
+        alert("Hapus Barang Masuk Gagal")
         window.location.href="masuk.php"
         </script>';
+    }
+}
+
+if(isset($_POST['hapuspesanan'])){
+    $id_pesanan = $_POST['id_pesanan'];
+    $id_pelanggan = $_POST['id_pelanggan'];
+
+    $query = mysqli_query($koneksi, "DELETE FROM pesanan WHERE id_pesanan='$id_pesanan'");
+
+    if($query){
+        //update stock
+        header('location:index.php');
+    } else {
+        echo '
+        <script>
+        alert("Hapus Barang Masuk Gagal")
+        window.location.href="index.php"
+        </script>';
+    }
+}
+
+if(isset($_POST['editbarangmasuk'])) {
+    $qty = $_POST['qty'];
+    $id_masuk = $_POST['id_masuk'];
+    $id_produk = $_POST['id_produk'];
+
+    //cek
+    $getHistorys = mysqli_query($koneksi, "SELECT * FROM masuk WHERE id_masuk='$id_masuk'");
+    $getStok = mysqli_query($koneksi, "SELECT stock from produk where id_produk = '$id_produk'");
+    $getStok2 = mysqli_fetch_array($getStok);
+
+    $getHistory = mysqli_fetch_array($getHistorys);
+    $historyLama = $getHistory['qty'];
+    $stokSekarang = $getStok2['stock'];
+
+    if ($qty >= $historyLama) {
+        $selisih = $qty - $historyLama;
+        $update = mysqli_query($koneksi, "update produk set stock = stock+ $selisih where id_produk='$id_produk'");
+    } else {
+        $selisih = $historyLama - $qty;
+        $update = mysqli_query($koneksi, "update produk set stock = stock-$selisih where id_produk='$id_produk'");
+    }
+
+    $query2 = mysqli_query($koneksi, "UPDATE masuk SET qty='$qty' WHERE id_masuk='$id_masuk'");
+
+    if ($query2) {
+        //jika sukses
+        header('location:masuk.php');
+    } else {
+        echo '
+        <script>alert("Gagal");
+         window.location.href="masuk.php"
+        </script>
+        ';
     }
 }
